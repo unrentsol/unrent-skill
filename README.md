@@ -19,7 +19,7 @@ claude mcp add --transport http unrent https://unrent.xyz/mcp
 | Tool | What it does |
 | --- | --- |
 | `get_rent_status` | Live `lamports_per_byte` and which SIMD-0437 steps are live |
-| `scan_wallet` | Reclaimable SOL, fee, net, forecast, dust that could be burned (read-only) |
+| `scan_wallet` | Reclaimable SOL, fee, net, forecast, dust that could be burned, a link to sign in the browser (read-only) |
 | `build_reclaim` | Unsigned, simulated transactions for the wallet to sign |
 | `submit_reclaim` | Checks the signed transactions against the build and sends them |
 

@@ -28,7 +28,7 @@ Other clients: add a remote MCP server with that URL.
 | Tool | What it does | Side effects |
 | --- | --- | --- |
 | `get_rent_status` | Live `lamports_per_byte`, which SIMD-0437 steps are live, the next one | none |
-| `scan_wallet` | Reclaimable SOL (excess, empty accounts, mint excess), fee, net, forecast per remaining step, burn candidates | none |
+| `scan_wallet` | Reclaimable SOL (excess, empty accounts, mint excess), fee, net, forecast per remaining step, burn candidates, `signUrl` for signing in the browser | none |
 | `build_reclaim` | Re-scans and returns unsigned, simulated transactions (base64) plus a `claimId` | stores a pending claim |
 | `submit_reclaim` | Checks the signed transactions against the build, then sends them | moves SOL on-chain |
 
@@ -36,6 +36,7 @@ Other clients: add a remote MCP server with that URL.
 
 1. `scan_wallet { wallet }`. Tell the user `reclaimable.totalSol`, `fee.sol` and `netSol`. If `totalSol` is 0, stop; the `forecast` shows what later steps will free.
 2. Ask before going on. Never pass `burn` unless the user explicitly asked to burn specific tokens (burning destroys them; `burn.candidates` lists only priced tokens, `dust: true` means worth less than selling costs).
+   **No key for this wallet?** If its keys are in the user's browser wallet (Phantom, Solflare, Backpack…), stop here and give the user `signUrl` from the scan. They open it, connect their wallet and sign on unrent.xyz. Never ask for a seed phrase or private key.
 3. `build_reclaim { wallet }` (optionally `accounts`, `burn`, `burnMaxUsd`). The wallet needs a little SOL for network fees.
 4. Sign every transaction in `transactions` with the wallet, in order, without changing the message. Do not send them yourself.
 5. Within about 60 seconds: `submit_reclaim { claimId, signed }`. Report each `signature` and `explorer` link. On `expired: true`, build again.
